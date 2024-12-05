@@ -6,6 +6,7 @@
 import torch
 from transformers import CLIPModel, CLIPTextModel, CLIPTokenizer
 from diffusers import AutoencoderKL, UNet2DConditionModel
+import secrets
 
 _model = None
 
@@ -60,7 +61,6 @@ def get_model():
     return _model
 
 import numpy as np
-import random
 from PIL import Image
 from diffusers import LMSDiscreteScheduler
 from tqdm.auto import tqdm
@@ -265,7 +265,7 @@ def stablediffusion(prompt="",
     height = height - height % 64
     
     #If seed is None, randomly select seed from 0 to 2^32-1
-    if seed is None: seed = random.randrange(2**32 - 1)
+    if seed is None: seed = secrets.SystemRandom().randrange(2**32 - 1)
     generator = torch.cuda.manual_seed(seed)
     
     #Set inference timesteps to scheduler
